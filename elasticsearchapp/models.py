@@ -84,15 +84,17 @@ class TargetStatus(models.Model):
     def delete(self, *args, **kwargs):
         prev_pk = self.targetID
         super(TargetStatus, self).delete(*args, **kwargs)
+        old_indexed_post = TargetIndex.get(id=prev_pk)
+        old_indexed_post.delete()
 
 
-
+        '''
         es_client.delete(
             index = self._meta.es_index_name,
             doc_type=self._meta.es_type_name,
             id = prev_pk,
             refresh = True,
-        )
+        ) '''
 
 
 
